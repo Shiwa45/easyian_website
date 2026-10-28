@@ -52,7 +52,7 @@ class SiteSettings(models.Model):
     site_name = models.CharField(max_length=80, default="Easyian")
     legal_name = models.CharField(max_length=120, default="Easyian Tech OPC Private Limited")
     tagline = models.CharField(max_length=160, default="SaaS CRM, AI agents, predictive dialers, VoIP and websites.")
-    logo = models.ImageField(upload_to="brand/", blank=True, help_text="Optional. Leave empty to use the clay 'e' mark.")
+    logo = models.ImageField(upload_to="brand/", blank=True, help_text="Optional. Leave empty to use the bundled Easyian logo.")
     favicon = models.ImageField(upload_to="brand/", blank=True)
 
     phone = models.CharField(max_length=40, blank=True)

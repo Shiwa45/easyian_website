@@ -2,6 +2,7 @@
 import json
 
 from django.conf import settings
+from django.templatetags.static import static
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.text import Truncator
@@ -77,8 +78,7 @@ def organization_ld():
         "url": settings.SITE_URL + "/",
         "description": site.tagline,
     }
-    if site.logo:
-        org["logo"] = absolute(site.logo.url)
+    org["logo"] = absolute(site.logo.url if site.logo else static("img/logo.png"))
     if site.email:
         org["email"] = site.email
     if site.phone:
