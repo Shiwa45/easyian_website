@@ -12,7 +12,8 @@ from .models import Category, Post, Tag
 PAGE_SIZE = 9
 
 
-def _list_context(request, queryset, *, heading, intro, crumbs, obj=None, title=None):
+def _list_context(request, queryset, *, heading, intro, crumbs, obj=None, title=None,
+                  description=None):
     query = request.GET.get("q", "").strip()
     if query:
         queryset = queryset.filter(Q(title__icontains=query) | Q(excerpt__icontains=query) |
@@ -30,7 +31,8 @@ def _list_context(request, queryset, *, heading, intro, crumbs, obj=None, title=
         "query": query,
         "categories": Category.objects.all(),
         "featured": Post.objects.published().filter(is_featured=True).first() if page_obj.number == 1 and not query else None,
-        "meta": build_meta(request, obj=obj, title=title or heading, description=intro,
+        "meta": build_meta(request, obj=obj, title=title or heading,
+                           description=description or intro,
                            noindex=noindex, canonical=canonical),
         "jsonld": jsonld(breadcrumb_ld(crumbs)),
         "nav_active": "blog",
@@ -59,6 +61,10 @@ def category(request, slug):
         request, qs, heading=cat.name, intro=cat.description or f"Articles about {cat.name}.",
         crumbs=[("Home", "/"), ("Blog", reverse("blog:list")), (cat.name, cat.get_absolute_url())],
         obj=cat,
+        title=f"{cat.name} guides & articles",
+        description=cat.description or (
+            f"Guides, comparisons and how-tos on {cat.name} for sales and telecalling teams."
+        ),
     )
     context["active_category"] = cat
     return render(request, "blog/list.html", context)

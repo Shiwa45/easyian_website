@@ -43,7 +43,9 @@ def build_meta(request, *, title="", description="", image=None, obj=None, og_ty
 
     full_title = title or site.default_meta_title
     if title and site.site_name.lower() not in title.lower():
-        full_title = f"{title} | {site.site_name}"
+        # Google truncates around 60 characters; keep the page's own words over the brand.
+        suffixed = f"{title} | {site.site_name}"
+        full_title = suffixed if len(suffixed) <= 60 else title
     description = Truncator(strip_tags(description or site.default_meta_description)).chars(165)
 
     return {
