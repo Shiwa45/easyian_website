@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_safe
 
 from blog.models import Post
 from leads.forms import LeadForm
@@ -146,7 +146,7 @@ def about(request):
     return render(request, "core/about.html", context)
 
 
-@require_GET
+@require_safe
 def robots_txt(request):
     lines = [
         "User-agent: *",

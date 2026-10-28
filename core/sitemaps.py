@@ -35,4 +35,5 @@ class ServiceSitemap(SiteProtocolMixin, Sitemap):
     priority = 0.7
 
     def items(self):
-        return Service.objects.filter(is_active=True, noindex=False)
+        # DialSathi points at its own product page, which StaticPageSitemap already lists.
+        return Service.objects.filter(is_active=True, noindex=False).exclude(slug="dialsathi")
