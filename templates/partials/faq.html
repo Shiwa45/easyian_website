@@ -1,0 +1,15 @@
+{% if faqs %}
+<section class="section" aria-labelledby="faq-title">
+<div class="wrap">
+<div class="section-head center" data-reveal>
+<div class="eyebrow teal">FAQ</div>
+<h2 class="h2" id="faq-title">Questions, answered.</h2>
+</div>
+<div class="faq">
+{% for f in faqs %}
+<details data-reveal="{{ forloop.counter0 }}"{% if forloop.first %} open{% endif %}><summary>{{ f.question }}</summary><p>{{ f.answer|linebreaksbr }}</p></details>
+{% endfor %}
+</div>
+</div>
+</section>
+{% endif %}

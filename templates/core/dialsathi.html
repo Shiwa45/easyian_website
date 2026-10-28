@@ -1,0 +1,115 @@
+{% extends "base.html" %}{% load core_tags %}
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+<div class="blob-bg blob" aria-hidden="true" style="width:540px;height:540px;right:-40px;top:20px;background:#C9F1E8"></div>
+<div class="wrap row">
+<div class="col hero-copy">
+<nav class="breadcrumbs rise" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span><span aria-current="page">DialSathi</span></nav>
+{% if page.eyebrow %}<span class="chip clay-sm rise d1" style="align-self:flex-start">{{ page.eyebrow }}</span>{% endif %}
+<h1 class="h1 rise d2" id="hero-title">{{ page.heading }}{% if page.heading_highlight %} <span class="hl-teal">{{ page.heading_highlight }}</span>{% endif %}</h1>
+{% if page.subheading %}<p class="lead rise d3">{{ page.subheading }}</p>{% endif %}
+<div class="btn-row rise d4">
+<a href="{{ page.primary_cta_url|default:'#lead-form' }}" class="btn btn-teal">{{ page.primary_cta_label|default:"Book a free demo" }}</a>
+<a href="{{ page.secondary_cta_url|default:'#pricing' }}" class="btn">{{ page.secondary_cta_label|default:"See pricing" }}</a>
+</div>
+</div>
+<div class="col scene-wrap" aria-hidden="true">
+<div class="scene hero-scene" style="width:520px;height:600px">
+<div class="hide-sm" style="position:absolute;left:0;top:270px;width:200px;height:50px">
+<div class="feed clay-sm c-yellow" style="position:absolute;padding:8px 12px;border-radius:14px;font-size:12px;font-weight:700">IndiaMART</div>
+<div class="feed2 clay-sm c-sky" style="position:absolute;padding:8px 12px;border-radius:14px;font-size:12px;font-weight:700">Meta Ads</div>
+<div class="feed3 clay-sm c-peach" style="position:absolute;padding:8px 12px;border-radius:14px;font-size:12px;font-weight:700">Google Ads</div>
+</div>
+<div class="p3d swing" style="position:absolute;left:140px;top:30px;width:270px;height:540px">
+<div class="phone clay p3d" style="position:absolute;inset:0"><div class="phone-screen p3d">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:var(--display);font-weight:600;font-size:20px">Auto-dial</span><span class="clay-in" style="padding:4px 10px;border-radius:10px;background:var(--inset);font-size:11px;font-weight:700">Queue on</span></div>
+<div class="p3d" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 0;transform:translateZ(50px)">
+<div class="call-btn" style="width:90px;height:90px"><span class="pulse"></span><span class="pulse2"></span><span class="face ringing">{% icon "phone" 36 "#1F2B3D" %}</span></div>
+<div style="font-weight:700">Calling next lead</div>
+</div>
+<div class="clay-sm t-coral" style="padding:12px;border-radius:16px;font-size:13px;transform:translateZ(30px)"><b>Disposition</b><div style="display:flex;gap:6px;margin-top:8px"><span class="face c-mint" style="padding:4px 8px;border-radius:8px;font-size:11px;font-weight:700">Interested</span><span class="face c-yellow" style="padding:4px 8px;border-radius:8px;font-size:11px;font-weight:700">Call back</span></div></div>
+<div class="clay-sm t-sky" style="padding:12px;border-radius:16px;font-size:13px;transform:translateZ(20px)"><b>Follow-up set</b><div class="muted" style="margin-top:4px">Reminder added to today’s list</div></div>
+<div class="clay-sm t-teal" style="padding:12px;border-radius:16px;font-size:13px;display:flex;align-items:center;gap:8px;transform:translateZ(40px)"><span class="face c-teal" style="width:22px;height:22px;border-radius:7px"></span><b>WhatsApp template sent</b></div>
+</div></div>
+<div class="float-card clay float" style="right:-150px;top:70px;width:170px;transform:translateZ(90px)"><div class="small" style="font-weight:700">Manager · live floor</div><div style="display:flex;gap:6px;margin-top:10px"><span class="ball c-teal" style="width:22px;height:22px;border-radius:50%"></span><span class="ball c-teal" style="width:22px;height:22px;border-radius:50%"></span><span class="ball c-yellow" style="width:22px;height:22px;border-radius:50%"></span><span class="ball c-coral" style="width:22px;height:22px;border-radius:50%"></span></div></div>
+<div class="float-card clay float2" style="right:-130px;bottom:90px;width:180px;transform:translateZ(120px)"><div class="small" style="font-weight:700">AI call summary</div><div class="clay-in" style="margin-top:10px;height:10px;border-radius:6px;background:var(--inset);overflow:hidden"><div class="grow c-coral" style="height:100%;border-radius:6px"></div></div><div style="margin-top:8px;font-size:12px">Mood: positive · Next: send quote</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+{% if features %}
+<section class="section" aria-labelledby="feat-title">
+<div class="wrap">
+<div class="section-head" data-reveal><div class="eyebrow teal">Everything a calling floor needs</div><h2 class="h2" id="feat-title">From lead to invoice, in one app.</h2></div>
+<div class="grid">
+{% for f in features %}
+<div class="feature-card clay lift t-{{ f.color }}" data-reveal="{{ forloop.counter0 }}"><div class="tile face c-{{ f.color }}" style="width:60px;height:60px;border-radius:20px">{% if f.icon %}{% icon f.icon 28 "#1F2B3D" %}{% endif %}</div><h3>{{ f.title }}</h3><p>{{ f.text }}</p></div>
+{% endfor %}
+</div>
+</div>
+</section>
+{% endif %}
+
+{% if addons %}
+<section class="section" aria-labelledby="addon-title">
+<div class="wrap">
+<div class="panel panel-dark clay-dark" data-reveal>
+<div class="spinz" aria-hidden="true" style="position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;border:3px dashed var(--navy-line)"></div>
+<div style="position:relative;max-width:640px"><div class="eyebrow yellow">Add-on modules · one login</div><h2 class="h2" id="addon-title" style="font-size:clamp(30px,3.8vw,48px)">Switch on more as you grow.</h2></div>
+<div class="grid" style="position:relative;margin-top:36px;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))">
+{% for a in addons %}
+<div class="step-card clay-dark lift"><div class="tile face c-{{ a.color }}" style="width:50px;height:50px;border-radius:16px">{% if a.icon %}{% icon a.icon 24 "#1F2B3D" %}{% endif %}</div><h3 style="font-size:22px">{{ a.title }}</h3><p>{{ a.text }}</p></div>
+{% endfor %}
+</div>
+</div>
+</div>
+</section>
+{% endif %}
+
+{% if integrations %}
+<section style="padding:40px 0 20px" aria-labelledby="int-title">
+<h2 class="center" id="int-title" style="font-size:30px;margin-bottom:10px">Plays nicely with</h2>
+<p class="sr-only">{% for i in integrations %}{{ i.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+<div style="overflow:hidden" aria-hidden="true"><div class="marquee-chips marquee">
+{% for x in "12" %}{% for i in integrations %}<span class="clay-sm">{{ i.name }}</span>{% endfor %}{% endfor %}
+</div></div>
+</section>
+{% endif %}
+
+{% if plans %}
+<section id="pricing" class="section" aria-labelledby="price-title">
+<div class="wrap">
+<div class="section-head center" data-reveal><div class="eyebrow">Pricing</div><h2 class="h2" id="price-title">Simple yearly plans.</h2><p class="muted" style="margin-top:14px">Both include manual &amp; auto dialing, call recording, follow-up alerts and the Android app. Prices exclude GST.</p></div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:32px">
+{% for p in plans %}
+<div class="plan clay lift {% if p.is_highlighted %}highlight{% endif %}" data-reveal="{{ forloop.counter0 }}">
+{% if p.is_highlighted %}<div class="ball float c-yellow" aria-hidden="true" style="position:absolute;right:24px;top:-22px;width:54px;height:54px;border-radius:50%"></div>{% endif %}
+<div class="face {% if p.is_highlighted %}bg-card{% else %}c-sky{% endif %}" style="align-self:flex-start;padding:8px 14px;border-radius:14px;font-weight:700;font-size:14px">{{ p.name }}</div>
+<div class="price">{{ p.price }}<small>{{ p.period }}</small></div>
+{% if p.users_label %}<div style="font-weight:600">{{ p.users_label }}</div>{% endif %}
+{% if p.feature_list %}<ul>{% for f in p.feature_list %}<li>{{ f }}</li>{% endfor %}</ul>{% endif %}
+<a href="#lead-form" class="btn btn-sm {% if p.is_highlighted %}btn-dark{% endif %}" style="margin-top:8px">{{ p.cta_label }}</a>
+</div>
+{% endfor %}
+</div>
+<p class="center muted" style="margin-top:28px">Bigger floor? <a href="#lead-form" style="font-weight:700;text-decoration:underline">Ask for a custom plan</a>.</p>
+</div>
+</section>
+{% endif %}
+
+<section class="section" aria-labelledby="ind-title">
+<div class="wrap row" style="align-items:flex-start;gap:48px">
+<div class="col stack" data-reveal>
+<h2 class="h2" id="ind-title" style="margin:0">Built for teams that sell by phone.</h2>
+{% if industries %}<div style="display:flex;flex-wrap:wrap;gap:10px">{% for i in industries %}<span class="clay-sm bg-card" style="padding:10px 16px;border-radius:16px;font-weight:600">{{ i.name }}</span>{% endfor %}</div>{% endif %}
+<p class="lead">Book a free 30-minute setup and walkthrough. We’ll import your leads and connect your sources live on the call.</p>
+<a href="https://dialsathi.com" class="btn" style="align-self:flex-start" target="_blank" rel="noopener">Visit dialsathi.com ↗</a>
+</div>
+<div class="col">{% include "partials/lead_form.html" with form=lead_form title="Get a DialSathi demo" %}</div>
+</div>
+</section>
+
+{% include "partials/faq.html" %}
+{% endblock %}

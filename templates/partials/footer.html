@@ -1,0 +1,32 @@
+{% load core_tags %}<footer class="site-footer">
+<div class="wrap">
+<div class="footer-top">
+<div class="footer-col" style="flex:1 1 280px;max-width:360px">
+<a href="{% url 'core:home' %}" class="brand"><span class="brand-mark face" aria-hidden="true">e</span><span class="brand-name" style="color:#FFF3E6">{{ site.site_name }}</span></a>
+<p style="margin-top:12px">{{ site.footer_about }}</p>
+<div class="socials">
+{% if site.linkedin_url %}<a href="{{ site.linkedin_url }}" rel="noopener" target="_blank" aria-label="LinkedIn">{% icon "linkedin" 20 %}</a>{% endif %}
+{% if site.facebook_url %}<a href="{{ site.facebook_url }}" rel="noopener" target="_blank" aria-label="Facebook">{% icon "facebook" 20 %}</a>{% endif %}
+{% if site.instagram_url %}<a href="{{ site.instagram_url }}" rel="noopener" target="_blank" aria-label="Instagram">{% icon "instagram" 20 %}</a>{% endif %}
+{% if site.youtube_url %}<a href="{{ site.youtube_url }}" rel="noopener" target="_blank" aria-label="YouTube">{% icon "youtube" 20 %}</a>{% endif %}
+{% if site.twitter_url %}<a href="{{ site.twitter_url }}" rel="noopener" target="_blank" aria-label="X">{% icon "twitter" 20 %}</a>{% endif %}
+</div>
+</div>
+<div class="footer-col"><div class="title">Services</div>
+{% for s in nav_services %}<a href="{{ s.get_absolute_url }}">{{ s.title }}</a>{% endfor %}
+</div>
+<div class="footer-col"><div class="title">Company</div>
+<a href="{% url 'core:about' %}">About</a>
+<a href="{% url 'core:dialsathi' %}">DialSathi</a>
+<a href="{% url 'blog:list' %}">Blog</a>
+<a href="{% url 'core:about' %}#lead-form">Contact</a>
+</div>
+<div class="footer-col"><div class="title">Reach us</div>
+{% if site.phone %}<a href="tel:{{ site.phone|cut:' ' }}">{{ site.phone }}</a>{% endif %}
+{% if site.email %}<a href="mailto:{{ site.email }}">{{ site.email }}</a>{% endif %}
+{% if site.city %}<span>{{ site.city }}{% if site.state %}, {{ site.state }}{% endif %}, {{ site.country }}</span>{% endif %}
+</div>
+</div>
+<div class="footer-bottom"><span>© {% now "Y" %} {{ site.legal_name }}</span><span><a href="{% url 'django.contrib.sitemaps.views.sitemap' %}">Sitemap</a> · Made in India</span></div>
+</div>
+</footer>

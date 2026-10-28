@@ -1,0 +1,7 @@
+Django>=5.2,<6.0
+Pillow>=10.0
+django-tinymce>=4.1
+# Production server (Linux):
+gunicorn>=22.0
+# Optional, only if you switch to PostgreSQL (DB_ENGINE=postgres):
+# psycopg[binary]>=3.1

@@ -1,0 +1,20 @@
+{% load core_tags %}<header class="site-header">
+<div class="wrap">
+<nav class="nav clay rise" aria-label="Main">
+<a href="{% url 'core:home' %}" class="brand" aria-label="{{ site.site_name }} home">
+{% if site.logo %}<img src="{{ site.logo.url }}" alt="{{ site.site_name }}" width="140" height="46">{% else %}
+<span class="brand-mark face" aria-hidden="true">E</span>
+<span class="brand-name">{{ site.site_name }}</span>{% endif %}
+</a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu">{% icon "menu" 24 %}</button>
+<div class="nav-links" id="nav-links">
+<a href="{% url 'core:home' %}" {% if nav_active == 'home' %}class="active" aria-current="page"{% endif %}>Home</a>
+<a href="{% url 'core:services' %}" {% if nav_active == 'services' %}class="active" aria-current="page"{% endif %}>Services</a>
+<a href="{% url 'core:dialsathi' %}" {% if nav_active == 'dialsathi' %}class="active" aria-current="page"{% endif %}>DialSathi</a>
+<a href="{% url 'blog:list' %}" {% if nav_active == 'blog' %}class="active" aria-current="page"{% endif %}>Blog</a>
+<a href="{% url 'core:about' %}" {% if nav_active == 'about' %}class="active" aria-current="page"{% endif %}>About &amp; Contact</a>
+</div>
+<a href="{% url 'core:about' %}#lead-form" class="btn btn-primary btn-sm nav-cta">{{ site.header_cta_label }}</a>
+</nav>
+</div>
+</header>

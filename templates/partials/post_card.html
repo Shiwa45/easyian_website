@@ -1,0 +1,13 @@
+{% load core_tags %}<a href="{{ post.get_absolute_url }}" class="post-card clay lift" data-reveal="{{ forloop.counter0|default:0 }}">
+{% if post.cover_image %}
+<img class="post-cover" src="{{ post.cover_image.url }}" alt="{{ post.cover_alt|default:post.title }}" loading="lazy" width="640" height="360">
+{% else %}
+<div class="post-cover ph t-sky" aria-hidden="true"><span class="tile tile-lg face c-sky bob">{% icon "spark" 34 "#1F2B3D" %}</span></div>
+{% endif %}
+<div class="post-body">
+<div class="post-meta">{% if post.category %}<span class="cat-chip">{{ post.category.name }}</span>{% endif %}<time datetime="{{ post.published_at|date:'c' }}">{{ post.published_at|date:"d M Y" }}</time><span>· {{ post.reading_minutes }} min read</span></div>
+<h3>{{ post.title }}</h3>
+<p class="muted">{{ post.excerpt|truncatechars:150 }}</p>
+<span class="link-arrow" style="margin-top:auto">Read article →</span>
+</div>
+</a>

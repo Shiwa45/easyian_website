@@ -1,0 +1,50 @@
+{% load core_tags %}{# Lead form with hidden captcha. Include with: {% include "partials/lead_form.html" with form=lead_form title="Book a free demo" %} #}
+<form id="lead-form" class="form clay" method="post" action="{% url 'leads:submit' %}" data-lead-form data-pow="{{ form.pow_difficulty }}" novalidate>
+{% csrf_token %}
+<h2 class="h3" style="margin:0">{{ title|default:"Book a free demo" }}</h2>
+<div class="form-status" role="status" aria-live="polite"></div>
+<ul class="errorlist" data-for="__all__">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>
+
+<div class="form-grid">
+{% for field in form %}{% if field.name in "name company phone email" %}
+<div class="field">
+<label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span aria-hidden="true">*</span>{% endif %}</label>
+{{ field.as_widget|safe }}
+<ul class="errorlist" data-for="{{ field.name }}">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+{% endif %}{% endfor %}
+</div>
+
+<fieldset class="checks">
+<legend>{{ form.interests.label }}</legend>
+{% for opt in form.interests %}
+<label class="check">{{ opt.tag }}<span>{{ opt.choice_label }}</span></label>
+{% endfor %}
+</fieldset>
+
+<div class="field">
+<label for="{{ form.team_size.id_for_label }}">{{ form.team_size.label }}</label>
+{{ form.team_size }}
+<ul class="errorlist" data-for="team_size">{% for e in form.team_size.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+<div class="field">
+<label for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
+{{ form.message }}
+<ul class="errorlist" data-for="message">{% for e in form.message.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+
+{# ---- hidden captcha: honeypots (hidden from humans) + signed challenge + proof-of-work ---- #}
+<div class="hp-field" aria-hidden="true">
+<label for="{{ form.website.id_for_label }}">Leave this empty</label>{{ form.website }}
+<label for="{{ form.fax_number.id_for_label }}">Leave this empty</label>{{ form.fax_number }}
+</div>
+{{ form.challenge }}{{ form.pow }}{{ form.source_page }}{{ form.utm_source }}{{ form.utm_medium }}{{ form.utm_campaign }}
+{% if form.turnstile_site_key %}
+<div class="cf-turnstile" data-sitekey="{{ form.turnstile_site_key }}" data-size="invisible" data-appearance="interaction-only"></div>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endif %}
+
+<button type="submit" class="btn btn-primary" style="min-height:56px">Request my demo {% icon "arrow" 20 %}</button>
+<noscript><p class="form-note">Please enable JavaScript to send this form — it lets us block spam without a captcha puzzle.</p></noscript>
+<p class="form-note">Protected by an invisible spam check. We’ll only use your details to contact you about your enquiry.</p>
+</form>

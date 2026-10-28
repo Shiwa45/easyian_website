@@ -1,0 +1,48 @@
+{% extends "base.html" %}{% load core_tags %}
+{% block extra_meta %}
+<meta property="article:published_time" content="{{ post.published_at|date:'c' }}">
+<meta property="article:modified_time" content="{{ post.updated_at|date:'c' }}">
+{% if post.category %}<meta property="article:section" content="{{ post.category.name }}">{% endif %}
+{% for t in post.tags.all %}<meta property="article:tag" content="{{ t.name }}">{% endfor %}
+{% endblock %}
+{% block content %}
+<article class="section" style="padding-top:56px">
+<div class="wrap">
+<div class="article">
+{% if not post.is_live %}<p class="form-status err clay-sm" style="margin-bottom:20px">Preview — this post is not published yet (only staff can see it).</p>{% endif %}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span><a href="{% url 'blog:list' %}">Blog</a>{% if post.category %}<span aria-hidden="true">/</span><a href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>{% endif %}</nav>
+<header class="article-head rise">
+{% if post.category %}<a class="cat-chip" href="{{ post.category.get_absolute_url }}">{{ post.category.name }}</a>{% endif %}
+<h1>{{ post.title }}</h1>
+<div class="post-meta" style="font-size:15px"><span>By {{ post.author_display }}</span><span>·</span><time datetime="{{ post.published_at|date:'c' }}">{{ post.published_at|date:"d F Y" }}</time><span>·</span><span>{{ post.reading_minutes }} min read</span></div>
+</header>
+{% if post.cover_image %}
+<figure class="article-cover clay rise d1" style="margin-left:0;margin-right:0"><img src="{{ post.cover_image.url }}" alt="{{ post.cover_alt|default:post.title }}" width="1200" height="675" fetchpriority="high"></figure>
+{% endif %}
+<div class="prose">{{ post.content|safe }}</div>
+{% with tags=post.tags.all %}{% if tags %}<div class="tag-list">{% for t in tags %}<a href="{{ t.get_absolute_url }}" rel="tag">#{{ t.name }}</a>{% endfor %}</div>{% endif %}{% endwith %}
+<div class="share"><span>Share:</span>
+<a href="https://wa.me/?text={{ post.title|urlencode }}%20{{ meta.canonical|urlencode }}" target="_blank" rel="noopener" aria-label="Share on WhatsApp">{% icon "phone" 20 %}</a>
+<a href="https://www.linkedin.com/sharing/share-offsite/?url={{ meta.canonical|urlencode }}" target="_blank" rel="noopener" aria-label="Share on LinkedIn">{% icon "linkedin" 20 %}</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u={{ meta.canonical|urlencode }}" target="_blank" rel="noopener" aria-label="Share on Facebook">{% icon "facebook" 20 %}</a>
+<a href="https://twitter.com/intent/tweet?url={{ meta.canonical|urlencode }}&text={{ post.title|urlencode }}" target="_blank" rel="noopener" aria-label="Share on X">{% icon "twitter" 20 %}</a>
+</div>
+
+<aside class="panel clay c-coral" style="margin-top:56px" aria-label="Book a demo">
+<h2 class="h3">Want this working on your sales floor?</h2>
+<p style="margin:12px 0 24px;font-size:17px">Book a free walkthrough of Easyian’s CRM, dialer and AI agents.</p>
+<a href="{% url 'core:about' %}#lead-form" class="btn btn-dark">Book a demo</a>
+</aside>
+</div>
+</div>
+</article>
+
+{% if related %}
+<section class="section" aria-labelledby="rel-title" style="padding-top:0">
+<div class="wrap">
+<h2 class="h2" id="rel-title" style="margin-bottom:32px">Keep reading</h2>
+<div class="post-grid">{% for post in related %}{% include "partials/post_card.html" %}{% endfor %}</div>
+</div>
+</section>
+{% endif %}
+{% endblock %}

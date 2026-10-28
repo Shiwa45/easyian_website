@@ -1,0 +1,53 @@
+{% extends "base.html" %}{% load core_tags %}
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+<div class="blob-bg blob" aria-hidden="true" style="width:480px;height:480px;right:0;top:0;background:#FFF0CC"></div>
+<div class="wrap row">
+<div class="col hero-copy">
+<nav class="breadcrumbs rise" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span><span aria-current="page">About &amp; Contact</span></nav>
+<div class="eyebrow rise d1">{{ page.eyebrow|default:"About Easyian" }}</div>
+<h1 class="h1 rise d2" id="hero-title" style="font-size:clamp(42px,5.6vw,76px)">{{ page.heading }}{% if page.heading_highlight %} <span class="hl">{{ page.heading_highlight }}</span>{% endif %}</h1>
+{% if page.subheading %}<p class="lead rise d3">{{ page.subheading }}</p>{% endif %}
+</div>
+<div class="col scene-wrap" aria-hidden="true">
+<div class="scene hero-scene" style="width:420px;height:400px;perspective:900px">
+<div class="p3d coin" style="position:absolute;left:110px;top:80px;width:200px;height:200px">
+<div class="face c-coral" style="position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:110px;backface-visibility:hidden">e</div>
+<div class="face c-teal" style="position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:40px;transform:rotateY(180deg);backface-visibility:hidden">India</div>
+</div>
+<div class="shadow-ellipse" style="left:130px;top:320px;width:160px;height:26px"></div>
+<div class="ball float c-yellow" style="position:absolute;left:10px;top:40px;width:64px;height:64px;border-radius:50%"></div>
+<div class="ball float2 c-sky" style="position:absolute;right:20px;top:20px;width:44px;height:44px;border-radius:16px"></div>
+<div class="ball float3 c-mint" style="position:absolute;right:40px;bottom:50px;width:56px;height:56px;border-radius:50% 50% 14px 50%"></div>
+</div>
+</div>
+</div>
+</section>
+
+{% if values %}
+<section class="section-sm">
+<div class="wrap grid">
+{% for v in values %}
+<div class="feature-card clay lift t-{{ v.color }}" data-reveal="{{ forloop.counter0 }}"><div class="tile face c-{{ v.color }}" style="width:56px;height:56px;border-radius:18px">{% if v.icon %}{% icon v.icon 26 "#1F2B3D" %}{% endif %}</div><h3>{{ v.title }}</h3><p>{{ v.text }}</p></div>
+{% endfor %}
+</div>
+</section>
+{% endif %}
+
+<section class="section" aria-labelledby="contact-title">
+<div class="wrap row" style="align-items:flex-start">
+<div class="col stack" style="flex:1 1 360px">
+<div class="eyebrow teal">Contact</div>
+<h2 class="h2" id="contact-title" style="margin:0">Say hello. We’ll call you back — obviously.</h2>
+<div class="plane" aria-hidden="true" style="align-self:flex-start;margin:8px 0">{% icon "plane" 84 "#1F2B3D" 1.4 %}</div>
+{% if site.phone %}<a href="tel:{{ site.phone|cut:' ' }}" class="contact-card clay-sm lift"><span class="tile face c-coral" style="width:52px;height:52px;border-radius:18px">{% icon "phone" 24 "#1F2B3D" %}</span><div><div class="k">Call / WhatsApp</div><div class="v">{{ site.phone }}</div></div></a>{% endif %}
+{% if site.email %}<a href="mailto:{{ site.email }}" class="contact-card clay-sm lift"><span class="tile face c-teal" style="width:52px;height:52px;border-radius:18px">{% icon "mail" 24 "#1F2B3D" %}</span><div><div class="k">Email</div><div class="v">{{ site.email }}</div></div></a>{% endif %}
+{% if site.address or site.city %}<div class="contact-card clay-sm lift"><span class="tile face c-yellow" style="width:52px;height:52px;border-radius:18px">{% icon "pin" 24 "#1F2B3D" %}</span><div><div class="k">Office</div><address class="v" style="font-style:normal">{{ site.address }}{% if site.city %}{% if site.address %}, {% endif %}{{ site.city }}{% endif %}{% if site.state %}, {{ site.state }}{% endif %} {{ site.postal_code }}</address></div></div>{% endif %}
+{% if site.map_embed_url %}<iframe title="Office location map" src="{{ site.map_embed_url }}" class="clay" style="width:100%;height:260px;border:0;border-radius:28px" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>{% endif %}
+</div>
+<div class="col" style="flex:1 1 520px">{% include "partials/lead_form.html" with form=lead_form %}</div>
+</div>
+</section>
+
+{% include "partials/faq.html" %}
+{% endblock %}

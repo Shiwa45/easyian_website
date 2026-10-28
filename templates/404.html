@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section">
+<div class="wrap center">
+<div class="ball float c-coral mx-auto" aria-hidden="true" style="width:140px;height:140px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:48px">404</div>
+<h1 class="h2" style="margin-top:32px">This page rolled away.</h1>
+<p class="lead mx-auto" style="margin-top:14px">The link may be old or mistyped. Try one of these instead.</p>
+<div class="btn-row" style="justify-content:center;margin-top:28px">
+<a href="{% url 'core:home' %}" class="btn btn-primary">Go home</a>
+<a href="{% url 'core:services' %}" class="btn">Services</a>
+<a href="{% url 'blog:list' %}" class="btn">Blog</a>
+</div>
+</div>
+</section>
+{% endblock %}

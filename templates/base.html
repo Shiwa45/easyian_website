@@ -1,0 +1,57 @@
+{% load static core_tags %}<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ meta.title|default:site.default_meta_title }}</title>
+<meta name="description" content="{{ meta.description|default:site.default_meta_description }}">
+<meta name="robots" content="{{ meta.robots|default:'index, follow' }}">
+{% if meta.canonical %}<link rel="canonical" href="{{ meta.canonical }}">{% endif %}
+<meta name="theme-color" content="#FFF3E6">
+{% if site.google_site_verification %}<meta name="google-site-verification" content="{{ site.google_site_verification }}">{% endif %}
+
+<meta property="og:site_name" content="{{ site.site_name }}">
+<meta property="og:type" content="{{ meta.type|default:'website' }}">
+<meta property="og:title" content="{{ meta.title|default:site.default_meta_title }}">
+<meta property="og:description" content="{{ meta.description|default:site.default_meta_description }}">
+{% if meta.canonical %}<meta property="og:url" content="{{ meta.canonical }}">{% endif %}
+{% if meta.image %}<meta property="og:image" content="{{ meta.image }}">{% endif %}
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ meta.title|default:site.default_meta_title }}">
+<meta name="twitter:description" content="{{ meta.description|default:site.default_meta_description }}">
+{% if meta.image %}<meta name="twitter:image" content="{{ meta.image }}">{% endif %}
+{% block extra_meta %}{% endblock %}
+
+<link rel="alternate" type="application/rss+xml" title="{{ site.site_name }} Blog" href="{% url 'blog:feed' %}">
+{% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% else %}<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">{% endif %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+{% if jsonld %}<script type="application/ld+json">{{ jsonld }}</script>{% endif %}
+{% if site.google_analytics_id %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics_id }}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ site.google_analytics_id|escapejs }}');</script>
+{% endif %}
+{% if site.extra_head_html %}{{ site.extra_head_html|safe }}{% endif %}
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+{% include "partials/header.html" %}
+<main id="main">
+{% if messages %}
+<div class="wrap" style="padding-top:20px">
+<ul class="messages">{% for m in messages %}<li class="form-status {% if m.tags == 'error' %}err{% else %}ok{% endif %} clay-sm">{{ m }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+{% block content %}{% endblock %}
+</main>
+{% include "partials/footer.html" %}
+{% if site.whatsapp %}
+<a class="wa-float" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">{% icon "phone" 26 "#1F2B3D" %}</a>
+{% endif %}
+<script src="{% static 'js/site.js' %}" defer></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

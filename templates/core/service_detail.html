@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% load core_tags %}
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+<div class="blob-bg blob" aria-hidden="true" style="width:460px;height:460px;right:0;top:20px;background:var(--t-{{ service.color }})"></div>
+<div class="wrap row">
+<div class="col hero-copy">
+<nav class="breadcrumbs rise" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span><a href="{% url 'core:services' %}">Services</a><span aria-hidden="true">/</span><span aria-current="page">{{ service.title }}</span></nav>
+<h1 class="h1 rise d1" id="hero-title" style="font-size:clamp(42px,5.6vw,76px)">{{ service.title }}</h1>
+<p class="lead rise d2">{{ service.short_description }}</p>
+<div class="btn-row rise d3">
+<a href="#lead-form" class="btn btn-primary">{{ service.cta_label }} {% icon "arrow" 20 %}</a>
+{% if service.external_url %}<a href="{{ service.external_url }}" class="btn" target="_blank" rel="noopener">Visit site ↗</a>{% endif %}
+</div>
+</div>
+<div class="col scene-wrap" aria-hidden="true">
+<div class="big-icon" style="transform:scale(1.4);margin:70px auto">
+<div class="blob-bg blob" style="inset:0;background:rgba(255,255,255,.6)"></div>
+<div class="tile face float c-{{ service.color }}">{% icon service.icon 72 "#1F2B3D" 1.8 %}</div>
+<div class="ball float2 c-yellow" style="position:absolute;right:6px;top:10px;width:44px;height:44px;border-radius:50%"></div>
+<div class="ball float3 c-sky" style="position:absolute;left:0;bottom:20px;width:30px;height:30px;border-radius:50%"></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" style="padding-top:20px">
+<div class="wrap row" style="align-items:flex-start;gap:48px">
+<div class="col stack" style="flex:1 1 520px">
+{% if service.feature_list %}
+<div class="panel clay t-{{ service.color }}" data-reveal>
+<h2 class="h3" style="margin-bottom:20px">What you get</h2>
+<ul class="grid-sm" style="list-style:none;padding:0;margin:0">
+{% for f in service.feature_list %}<li class="bullet clay-sm" style="font-size:15px"><span class="face c-{{ service.color }}" style="flex:none;width:26px;height:26px;border-radius:9px"></span>{{ f }}</li>{% endfor %}
+</ul>
+{% if service.good_for %}<p style="margin-top:20px">Good for: <strong>{{ service.good_for }}</strong></p>{% endif %}
+</div>
+{% endif %}
+{% if service.description %}<article class="prose" data-reveal>{{ service.description|safe }}</article>{% endif %}
+</div>
+<div class="col" style="flex:1 1 420px">{% include "partials/lead_form.html" with form=lead_form title="Talk to us about "|add:service.title %}</div>
+</div>
+</section>
+
+{% if other_services %}
+<section class="section" aria-labelledby="more-title">
+<div class="wrap">
+<h2 class="h2" id="more-title" style="margin-bottom:32px" data-reveal>Pairs well with</h2>
+<div class="grid">
+{% for s in other_services %}
+<a href="{{ s.get_absolute_url }}" class="service-card clay lift t-{{ s.color }}" data-reveal="{{ forloop.counter0 }}"><span class="tile face wob c-{{ s.color }}">{% icon s.icon 30 "#1F2B3D" %}</span><h3 style="font-size:23px">{{ s.title }}</h3><p>{{ s.short_description|truncatechars:110 }}</p></a>
+{% endfor %}
+</div>
+</div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section">
+<div class="wrap" style="max-width:760px">
+<h1 class="h2" style="margin-bottom:24px">Please check your details</h1>
+{% include "partials/lead_form.html" with form=lead_form %}
+</div>
+</section>
+{% endblock %}

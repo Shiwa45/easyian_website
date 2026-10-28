@@ -1,0 +1,87 @@
+{% extends "base.html" %}{% load core_tags %}
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+<div class="blob-bg blob" aria-hidden="true" style="width:460px;height:460px;right:0;top:20px;background:#E2F1FC"></div>
+<div class="wrap row">
+<div class="col hero-copy">
+<nav class="breadcrumbs rise" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span><span>Services</span></nav>
+<div class="eyebrow rise d1">{{ page.eyebrow|default:"Services" }}</div>
+<h1 class="h1 rise d2" id="hero-title" style="font-size:clamp(42px,5.6vw,78px)">{{ page.heading }}{% if page.heading_highlight %} <span class="hl">{{ page.heading_highlight }}</span>{% endif %}</h1>
+{% if page.subheading %}<p class="lead rise d3">{{ page.subheading }}</p>{% endif %}
+</div>
+<div class="col scene-wrap" aria-hidden="true">
+<div class="scene hero-scene" style="width:460px;height:440px;perspective:1000px">
+<div class="stack3d p3d" style="position:absolute;left:90px;top:110px;width:280px;height:280px">
+<div class="s1 face c-sky" style="position:absolute;inset:0;border-radius:48px"></div>
+<div class="s2 face c-teal" style="position:absolute;inset:20px;border-radius:42px"></div>
+<div class="s3 face c-coral" style="position:absolute;inset:40px;border-radius:36px"></div>
+</div>
+<div class="float-card clay-sm float" style="left:0;top:40px;padding:10px 16px;border-radius:16px"><span class="label" style="font-size:14px">CRM</span></div>
+<div class="float-card clay-sm float2" style="right:0;top:90px;padding:10px 16px;border-radius:16px"><span class="label" style="font-size:14px">AI Agents</span></div>
+<div class="float-card clay-sm float" style="right:30px;bottom:30px;padding:10px 16px;border-radius:16px;animation-delay:-2s"><span class="label" style="font-size:14px">Dialer + VoIP</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" style="padding-top:20px" aria-label="Our services">
+<div class="wrap" data-tabs>
+<div class="tabs clay-in" role="tablist" aria-label="Services">
+{% for s in services %}
+<button class="tab" role="tab" type="button" id="tab-{{ s.slug }}" aria-controls="panel-{{ s.slug }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" data-color="var(--{{ s.color }})">{{ s.title }}</button>
+{% endfor %}
+</div>
+{% for s in services %}
+<div class="tab-panel panel clay t-{{ s.color }} row" role="tabpanel" id="panel-{{ s.slug }}" aria-labelledby="tab-{{ s.slug }}" {% if not forloop.first %}hidden{% endif %} style="gap:48px">
+<div style="flex:0 1 280px;margin:0 auto" aria-hidden="true">
+<div class="big-icon">
+<div class="blob-bg blob" style="inset:0;background:rgba(255,255,255,.55)"></div>
+<div class="tile face float c-{{ s.color }}">{% icon s.icon 72 "#1F2B3D" 1.8 %}</div>
+<div class="ball float2 c-yellow" style="position:absolute;right:6px;top:10px;width:44px;height:44px;border-radius:50%"></div>
+</div>
+</div>
+<div class="col stack" style="gap:18px">
+<h2 class="h3">{{ s.title }}</h2>
+<p style="font-size:18px;color:var(--muted-2)">{{ s.short_description }}</p>
+{% if s.feature_list %}
+<ul class="grid-sm" style="list-style:none;padding:0;margin:6px 0 0;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))">
+{% for f in s.feature_list %}<li class="bullet clay-sm" style="font-size:15px"><span class="face tile-sm c-{{ s.color }}" style="width:26px;height:26px;border-radius:9px"></span>{{ f }}</li>{% endfor %}
+</ul>
+{% endif %}
+<div class="btn-row" style="align-items:center;margin-top:10px">
+<a href="{{ s.get_absolute_url }}" class="btn btn-dark">{{ s.cta_label }}</a>
+{% if s.good_for %}<span style="color:var(--muted-2)">Good for: <strong style="color:var(--ink)">{{ s.good_for }}</strong></span>{% endif %}
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+</section>
+
+{% if process_steps %}
+<section class="section" aria-labelledby="process-title">
+<div class="wrap">
+<div class="section-head center" data-reveal><div class="eyebrow teal">How we work</div><h2 class="h2" id="process-title">{{ process_steps|length }} soft steps to go live.</h2></div>
+<div style="position:relative">
+<svg class="hide-sm" aria-hidden="true" width="100%" height="40" viewBox="0 0 1000 40" preserveAspectRatio="none" style="position:absolute;left:0;top:50px"><path d="M60 20 C 300 -10, 700 50, 940 20" fill="none" stroke="#FF7A59" stroke-width="3" stroke-dasharray="10 10" stroke-linecap="round"><animate attributeName="stroke-dashoffset" from="0" to="-40" dur="1.5s" repeatCount="indefinite"/></path></svg>
+<ol class="grid" style="list-style:none;padding:0;margin:0;position:relative;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))">
+{% for st in process_steps %}
+<li class="feature-card clay lift bg-card" data-reveal="{{ forloop.counter0 }}"><div class="tile face c-{{ st.color }} num" style="font-size:28px">{{ forloop.counter }}</div><h3>{{ st.title }}</h3><p>{{ st.text }}</p></li>
+{% endfor %}
+</ol>
+</div>
+</div>
+</section>
+{% endif %}
+
+{% include "partials/faq.html" %}
+
+<section class="section" style="padding-top:20px">
+<div class="wrap">
+<div class="panel panel-dark clay-dark row" style="justify-content:space-between;gap:28px" data-reveal>
+<div style="max-width:620px"><h2 style="font-size:clamp(30px,3.6vw,46px)">Not sure which layer to start with?</h2><p style="margin-top:12px;font-size:17px">Tell us your team size and lead sources — we’ll suggest a starting stack.</p></div>
+<a href="{% url 'core:about' %}#lead-form" class="btn btn-primary">Get a recommendation</a>
+</div>
+</div>
+</section>
+{% endblock %}

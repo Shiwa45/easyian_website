@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+.cache/
+media/
+staticfiles/
+.venv/
+venv/
+easyian-site.tar.gz

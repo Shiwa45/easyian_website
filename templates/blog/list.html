@@ -1,0 +1,59 @@
+{% extends "base.html" %}{% load core_tags %}
+{% block extra_meta %}
+{% if page_obj.has_previous %}<link rel="prev" href="?page={{ page_obj.previous_page_number }}">{% endif %}
+{% if page_obj.has_next %}<link rel="next" href="?page={{ page_obj.next_page_number }}">{% endif %}
+{% endblock %}
+{% block content %}
+<section class="hero" style="padding-bottom:40px" aria-labelledby="hero-title">
+<div class="blob-bg blob" aria-hidden="true" style="width:420px;height:420px;right:-40px;top:0;background:#E2F1FC"></div>
+<div class="wrap" style="position:relative">
+<nav class="breadcrumbs rise" aria-label="Breadcrumb"><a href="{% url 'core:home' %}">Home</a><span aria-hidden="true">/</span>{% if active_category or heading|first == "#" %}<a href="{% url 'blog:list' %}">Blog</a><span aria-hidden="true">/</span><span aria-current="page">{{ heading }}</span>{% else %}<span aria-current="page">Blog</span>{% endif %}</nav>
+<h1 class="h1 rise d1" id="hero-title" style="font-size:clamp(42px,5.6vw,76px)">{{ heading }}</h1>
+<p class="lead rise d2" style="margin-top:18px">{{ intro }}</p>
+<form class="search rise d3" role="search" method="get" style="margin-top:28px">
+<label for="q" class="sr-only">Search articles</label>
+<input class="input" type="search" id="q" name="q" value="{{ query }}" placeholder="Search articles…">
+<button class="btn btn-primary btn-sm" type="submit" aria-label="Search">{% icon "search" 20 %}</button>
+</form>
+</div>
+</section>
+
+<section class="section" style="padding-top:20px">
+<div class="wrap">
+{% if categories %}
+<nav class="cat-bar" aria-label="Categories">
+<a href="{% url 'blog:list' %}" {% if not active_category %}class="active"{% endif %}>All</a>
+{% for c in categories %}<a href="{{ c.get_absolute_url }}" {% if active_category == c %}class="active" aria-current="page"{% endif %}>{{ c.name }}</a>{% endfor %}
+</nav>
+{% endif %}
+
+{% if featured %}
+<a href="{{ featured.get_absolute_url }}" class="featured-post clay lift" style="color:var(--ink)" data-reveal>
+{% if featured.cover_image %}<img class="post-cover" src="{{ featured.cover_image.url }}" alt="{{ featured.cover_alt|default:featured.title }}" width="800" height="450">{% else %}<div class="post-cover ph t-yellow" aria-hidden="true"><span class="tile tile-lg face c-yellow float">{% icon "spark" 34 "#1F2B3D" %}</span></div>{% endif %}
+<div class="post-body">
+<div class="post-meta"><span class="cat-chip">Featured</span>{% if featured.category %}<span class="cat-chip">{{ featured.category.name }}</span>{% endif %}<span>{{ featured.reading_minutes }} min read</span></div>
+<h2>{{ featured.title }}</h2>
+<p class="muted">{{ featured.excerpt|truncatechars:200 }}</p>
+<span class="link-arrow">Read article →</span>
+</div>
+</a>
+{% endif %}
+
+{% if posts %}
+<div class="post-grid">{% for post in posts %}{% include "partials/post_card.html" %}{% endfor %}</div>
+{% else %}
+<div class="panel clay bg-card center"><h2 class="h3">No articles yet</h2><p class="muted" style="margin-top:10px">{% if query %}Nothing matched “{{ query }}”. Try another word.{% else %}New posts are on the way — check back soon.{% endif %}</p></div>
+{% endif %}
+
+{% if page_obj.has_other_pages %}
+<nav class="pagination" aria-label="Pagination">
+{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}" aria-label="Previous page">←</a>{% endif %}
+{% for n in page_obj.paginator.page_range %}
+{% if n == page_obj.number %}<span class="current" aria-current="page">{{ n }}</span>{% else %}<a href="?page={{ n }}{% if query %}&q={{ query|urlencode }}{% endif %}">{{ n }}</a>{% endif %}
+{% endfor %}
+{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}" aria-label="Next page">→</a>{% endif %}
+</nav>
+{% endif %}
+</div>
+</section>
+{% endblock %}
